@@ -1,7 +1,10 @@
 from copy import deepcopy
 from enum import Enum
 from typing import Dict, List
-from transformers import pipeline
+from transformers import (
+    pipeline,
+    AutoTokenizer
+)
 import torch
 from warnings import warn
 
@@ -44,8 +47,13 @@ def get_clean_message_list(message_list: List[Dict[str, str]], role_conversions:
     return final_message_list
 
 
+llama_role_conversions = {
+    MessageRole.TOOL_RESPONSE: MessageRole.USER,
+}
+
+
 class HfEngine:
-    def __init__(self, model_id: str = "meta-llama/Meta-Llama-3-8B-Instruct", config: dict = None):
+    def __init__(self, model_id: str = "meta-llama/Meta-Llama-3.1-8B-Instruct", config: dict = None):
         try:
             self.gpu_available = torch.cuda.is_available()
             self.ampere_available = True if (torch.cuda.get_device_capability(0)[0] == 8) & (self.gpu_available) else False
@@ -54,11 +62,11 @@ class HfEngine:
             warn(message)
             self.gpu_available = False
             self.ampere_available = False
-        
         self.model_id = model_id
         self.pipe = pipeline(
             task ="text-generation",
             model=model_id,
+            tokenizer=AutoTokenizer.from_pretrained(model_id),
             model_kwargs={
                 "torch_dtype": torch.float16,
                 "low_cpu_mem_usage": True,
@@ -74,13 +82,12 @@ class HfEngine:
             device_map="auto" if self.gpu_available else "cpu",
             trust_remote_code=True
         )
-
+        
+    
     def __call__(self, messages: List[Dict[str, str]], stop_sequences=[]) -> str:
         
-        llama_role_conversions = {
-            MessageRole.TOOL_RESPONSE: MessageRole.USER,
-        }
         messages = get_clean_message_list(messages, role_conversions=llama_role_conversions)
-        outputs = self.pipe(messages, max_new_tokens=256)
-        response = outputs[0]["generated_text"][-1]['content']
-        return f'{response}'
+        outputs = self.pipe(messages, max_new_tokens=1500, stop_strings=stop_sequences, tokenizer=self.pipe.tokenizer)
+        response = outputs[0]["generated_text"][-1]["content"]
+        print(response)
+        return str(response)
