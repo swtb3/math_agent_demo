@@ -6,7 +6,7 @@ from src.tools.SubtractionTool import SubtractionTool
 from src.LLMEngine import HfEngine
 
 
-def get_agent(model_id: str ="meta-llama/Meta-Llama-3-8B-Instruct", config: dict=None):
+def get_agent(model_id: str ="meta-llama/Meta-Llama-3.1-8B-Instruct", config: dict=None):
     """
     Args:
         model_id (str, optional): model string matching a repo in huggingface models. Defaults to "meta-llama/Meta-Llama-3-8B-Instruct".
