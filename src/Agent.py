@@ -4,6 +4,7 @@ from src.tools.DivisionTool import DivisionTool
 from src.tools.MultiplicationTool import MultiplicationTool
 from src.tools.SubtractionTool import SubtractionTool
 from src.tools.SquareTool import SquareTool
+from src.tools.SquareRootTool import SquareRootTool
 from src.LLMEngine import HfEngine
 
 
@@ -29,5 +30,6 @@ def get_agent(model_id: str ="meta-llama/Meta-Llama-3.1-8B-Instruct", config: di
     agent.toolbox.add_tool(MultiplicationTool)
     agent.toolbox.add_tool(SubtractionTool)
     agent.toolbox.add_tool(SquareTool)
+    agent.toolbox.add_tool(SquareRootTool)
     
     return agent
