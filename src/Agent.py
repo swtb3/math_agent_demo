@@ -4,7 +4,7 @@ from src.tools.DivisionTool import DivisionTool
 from src.tools.MultiplicationTool import MultiplicationTool
 from src.tools.SubtractionTool import SubtractionTool
 from src.tools.SquareTool import SquareTool
-from src.tool.SquareRootTool import SquareRootTool
+from src.tools.SquareRootTool import SquareRootTool
 from src.LLMEngine import HfEngine
 
 
