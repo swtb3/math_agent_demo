@@ -66,7 +66,7 @@ class HfEngine:
         self.pipe = pipeline(
             task ="text-generation",
             model=model_id,
-            tokenizer=AutoTokenizer.from_pretrained(model_id),
+            tokenizer=AutoTokenizer.from_pretrained(model_id, token=config["API"]["HF_READ"]),
             model_kwargs={
                 "torch_dtype": torch.float16,
                 "low_cpu_mem_usage": True,
@@ -89,5 +89,4 @@ class HfEngine:
         messages = get_clean_message_list(messages, role_conversions=llama_role_conversions)
         outputs = self.pipe(messages, max_new_tokens=1500, stop_strings=stop_sequences, tokenizer=self.pipe.tokenizer)
         response = outputs[0]["generated_text"][-1]["content"]
-        print(response)
         return str(response)
