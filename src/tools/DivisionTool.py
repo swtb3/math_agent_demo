@@ -5,24 +5,27 @@ class DivisionTool(Tool):
     
     name = "division_tool"
     description = (
-        "This tool performs a simple division between two Real numbers like: A / B = C"
-        "Where A / B / C = D is required, this tool must be invoked twice like: A / B = F then C / F = D"
+        "This tool performs a simple division between two Real numbers like: x / y = z"
         "It returns the result of the division operation"
     )
 
     inputs = {
-        "first_number": {
+        "x": {
             "type": "number",
             "description": "The number on the left side of the / operator",
         },
-        "second_number": {
+        "y": {
             "type": "number",
             "description": "The number on the right side of the / operator",
         }
     }
     output_type = "number"
     
-    def forward(self, inputs):
-        x = inputs["first_number"]
-        y = inputs["second_number"]
+    def forward(self, x: float, y: float) -> float:
+        
+        if not x:
+            raise Exception("You must provide a value for x")
+        if not y:
+            raise Exception("You must provide a value for y")
+        
         return x / y
