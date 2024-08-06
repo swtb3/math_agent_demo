@@ -18,11 +18,14 @@ def get_agent(model_id: str ="meta-llama/Meta-Llama-3.1-8B-Instruct", config: di
         _huggingface_agent_: An agent driven by the selected LLM agent with toolkit loaded
     """
     llm_engine = HfEngine(model_id=model_id, config=config)
-
+    with open("src/prompt_tools/prompt.txt", 'r') as file:
+        prompt = file.read()
     agent = ReactJsonAgent(
         tools=[],
         llm_engine=llm_engine,
-        add_base_tools=False
+        add_base_tools=False,
+        system_prompt=prompt,
+        max_iterations = 15
     )
 
     agent.toolbox.add_tool(AdditionTool)
