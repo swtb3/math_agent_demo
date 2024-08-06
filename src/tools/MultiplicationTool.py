@@ -3,7 +3,7 @@ from transformers import Tool
 
 class MultiplicationTool(Tool):
     
-    name = "mulitplication_tool"
+    name = "multiplication_tool"
     description = (
         "This tool performs a simple multiplication between two Real numbers like: x * y = z"
         "It returns the result of the multiplication operation"
@@ -11,15 +11,15 @@ class MultiplicationTool(Tool):
 
     inputs = {
         "x": {
-            "type": "number",
+            "type": "float",
             "description": "The number on the left side of the * operator",
         },
         "y": {
-            "type": "number",
+            "type": "float",
             "description": "The number on the right side of the * operator",
         }
     }
-    output_type = "number"
+    output_type = "float"
     
     def forward(self, x: float, y: float) -> float:
 

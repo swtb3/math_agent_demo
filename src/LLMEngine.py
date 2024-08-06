@@ -85,8 +85,15 @@ class HfEngine:
         
     
     def __call__(self, messages: List[Dict[str, str]], stop_sequences=[]) -> str:
-        
+        # with open("test_output.txt", "a") as f:
+        #     f.write(str(messages[0]))
         messages = get_clean_message_list(messages, role_conversions=llama_role_conversions)
-        outputs = self.pipe(messages, max_new_tokens=1500, stop_strings=stop_sequences, tokenizer=self.pipe.tokenizer)
+        outputs = self.pipe(messages, max_new_tokens=1500, temperature=0.4, stop_strings=stop_sequences, tokenizer=self.pipe.tokenizer)
         response = outputs[0]["generated_text"][-1]["content"]
+        print("##################")
+        print(response)
+        if "action" in str(response):
+            print("action detected")
+            response = str(response) + "<end_action>"
+            response = response.replace('\\n', '\n')
         return str(response)

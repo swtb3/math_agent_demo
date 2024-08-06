@@ -11,15 +11,15 @@ class SubtractionTool(Tool):
 
     inputs = {
         "x": {
-            "type": "number",
+            "type": "float",
             "description": "The number on the left side of the - operator",
         },
         "y": {
-            "type": "number",
+            "type": "float",
             "description": "The number on the right side of the - operator",
         }
     }
-    output_type = "number"
+    output_type = "float"
     
     def forward(self, x: float, y: float) -> float:
 
